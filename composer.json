@@ -1,0 +1,28 @@
+{
+  "name": "unetway/rates",
+  "description": "Пакет для работы с валютами ЦРБ",
+  "keywords": [
+    "rates",
+    "valute",
+    "crb"
+  ],
+  "homepage": "https://github.com/unetway/rates",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Cherepanov Ilya",
+      "email": "support@unetway.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4",
+    "guzzlehttp/guzzle": "^6.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Unetway\\Rates\\": "src/"
+    }
+  },
+  "minimum-stability": "dev"
+}
+
