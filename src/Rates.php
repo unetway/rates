@@ -120,7 +120,7 @@ class Rates
      * @param $date_req2
      * @param $val_nm_rq
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function getDynamic($date_req1, $date_req2, $val_nm_rq)
     {
@@ -145,7 +145,7 @@ class Rates
      * @param $date_req1
      * @param $date_req2
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function getOstat($date_req1, $date_req2)
     {
@@ -169,7 +169,7 @@ class Rates
      * @param $date_req1
      * @param $date_req2
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function getMetall($date_req1, $date_req2)
     {
@@ -193,7 +193,7 @@ class Rates
      * @param $date_req1
      * @param $date_req2
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function getMkr($date_req1, $date_req2)
     {
@@ -217,7 +217,7 @@ class Rates
      * @param $date_req1
      * @param $date_req2
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function getDepo($date_req1, $date_req2)
     {
@@ -251,7 +251,7 @@ class Rates
      * @param null $name
      * @param null $bic
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function getBic($name = null, $bic = null)
     {
@@ -278,7 +278,7 @@ class Rates
      * @param $date_req1
      * @param $date_req2
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function getSwap($date_req1, $date_req2)
     {
@@ -302,7 +302,7 @@ class Rates
      * @param $date_req1
      * @param $date_req2
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function getCoinsBase($date_req1, $date_req2)
     {
@@ -337,9 +337,7 @@ class Rates
         $response = $client->get($url)->getBody();
 
         $xml = simplexml_load_string($response);
-        $result = json_decode(json_encode((array)$xml), TRUE);
-
-        return $result;
+        return json_decode(json_encode((array)$xml), TRUE);
     }
 
 }

@@ -21,7 +21,7 @@ $ composer require unetway/rates
 - date_req дата запроса (dd/mm/yyyy)
 
 ````
-use Unetway\Rates;
+use Unetway\Rates\Rates;
 
 $date_req = '03/04/2021';
 
@@ -39,7 +39,7 @@ echo $res;
 - d=1 Коды валют устанавливаемые ежемесячно
 
 ````
-use Unetway\Rates;
+use Unetway\Rates\Rates;
 
 $d = 0;
 $rates = new Rates();
@@ -52,7 +52,7 @@ echo $res;
 #### Справочник по кодам валют
 
 ````
-use Unetway\Rates;
+use Unetway\Rates\Rates;
 
 $rates = new Rates();
 $res = $rates->getValuteCode();
@@ -68,7 +68,7 @@ echo $res;
 - VAL_NM_RQ уникальный ISO код валюты
 
 ````
-use Unetway\Rates;
+use Unetway\Rates\Rates;
 
 $date_req1 = '02/03/2001';
 $date_req2 = '14/03/2001';
@@ -87,7 +87,7 @@ echo $res;
 - date_req1 и date_req2 диапазон дат (dd/mm/yyyy)
 
 ````
-use Unetway\Rates;
+use Unetway\Rates\Rates;
 
 $date_req1 = '02/03/2001';
 $date_req2 = '14/03/2001';
@@ -105,7 +105,7 @@ echo $res;
 - date_req1 и date_req2 диапазон дат (dd/mm/yyyy)
 
 ````
-use Unetway\Rates;
+use Unetway\Rates\Rates;
 
 $date_req1 = '02/03/2001';
 $date_req2 = '14/03/2001';
@@ -123,7 +123,7 @@ echo $res;
 - date_req1 и date_req2 диапазон дат (dd/mm/yyyy)
 
 ````
-use Unetway\Rates;
+use Unetway\Rates\Rates;
 
 $date_req1 = '02/03/2001';
 $date_req2 = '14/03/2001';
@@ -141,7 +141,7 @@ echo $res;
 - date_req1 и date_req2 диапазон дат (dd/mm/yyyy)
 
 ````
-use Unetway\Rates;
+use Unetway\Rates\Rates;
 
 $date_req1 = '02/03/2001';
 $date_req2 = '14/03/2001';
@@ -155,7 +155,7 @@ echo $res;
 #### Получение новостей сервера
 
 ````
-use Unetway\Rates;
+use Unetway\Rates\Rates;
 
 $rates = new Rates();
 $res = $rates->getServerNews();
@@ -176,7 +176,7 @@ echo $res;
 Если оба параметра отсутствуют, тогда Вы получите полный список соответствия названий кредитных организации и кодов BIC.
 
 ````
-use Unetway\Rates;
+use Unetway\Rates\Rates;
 
 $name = 'АВТО';
 $bic = '044525774';
@@ -194,7 +194,7 @@ echo $res;
 - date_req1 и date_req2 диапазон дат (dd/mm/yyyy)
 
 ````
-use Unetway\Rates;
+use Unetway\Rates\Rates;
 
 $date_req1 = '02/03/2001';
 $date_req2 = '14/03/2001';
@@ -212,7 +212,7 @@ echo $res;
 - date_req1 и date_req2 диапазон дат (dd/mm/yyyy)
 
 ````
-use Unetway\Rates;
+use Unetway\Rates\Rates;
 
 $date_req1 = '02/03/2001';
 $date_req2 = '14/03/2001';
