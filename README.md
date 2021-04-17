@@ -1,6 +1,6 @@
 # Валюты
 
-Пакет позволяет получить курс валют через [API ЦРБ] (http://www.cbr.ru/development/sxml/)
+Пакет позволяет получить курс валют через [API ЦРБ](http://www.cbr.ru/development/sxml/)
 
 
 ## Установка
