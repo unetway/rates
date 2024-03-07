@@ -2,8 +2,8 @@
 
 namespace Unetway\Rates;
 
-use GuzzleHttp\Client;
 use Exception;
+use GuzzleHttp\Client;
 
 class Rates
 {
@@ -11,94 +11,126 @@ class Rates
     /**
      * @var string
      */
-    private $daily = 'http://www.cbr.ru/scripts/XML_daily.asp';
+    private string $daily = 'http://www.cbr.ru/scripts/XML_daily.asp';
 
     /**
      * @var string
      */
-    private $full_valute_code = 'http://www.cbr.ru/scripts/XML_valFull.asp';
+    private string $fullValuteCode = 'http://www.cbr.ru/scripts/XML_valFull.asp';
 
     /**
      * @var string
      */
-    private $valute_code = 'http://www.cbr.ru/scripts/XML_val.asp';
+    private string $valuteCode = 'http://www.cbr.ru/scripts/XML_val.asp';
 
     /**
      * @var string
      */
-    private $dynamic = 'http://www.cbr.ru/scripts/XML_dynamic.asp';
+    private string $dynamic = 'http://www.cbr.ru/scripts/XML_dynamic.asp';
 
     /**
      * @var string
      */
-    private $ostat = 'http://www.cbr.ru/scripts/XML_ostat.asp';
+    private string $ostat = 'http://www.cbr.ru/scripts/XML_ostat.asp';
 
     /**
      * @var string
      */
-    private $metall = 'http://www.cbr.ru/scripts/xml_metall.asp';
+    private string $metall = 'http://www.cbr.ru/scripts/xml_metall.asp';
 
     /**
      * @var string
      */
-    private $mkr = 'http://www.cbr.ru/scripts/xml_mkr.asp';
+    private string $mkr = 'http://www.cbr.ru/scripts/xml_mkr.asp';
 
     /**
      * @var string
      */
-    private $depo = 'http://www.cbr.ru/scripts/xml_depo.asp';
+    private string $depo = 'http://www.cbr.ru/scripts/xml_depo.asp';
 
     /**
      * @var string
      */
-    private $news = 'http://www.cbr.ru/scripts/XML_News.asp';
+    private string $news = 'http://www.cbr.ru/scripts/XML_News.asp';
 
     /**
      * @var string
      */
-    private $bic = 'http://www.cbr.ru/scripts/XML_bic.asp';
+    private string $bic = 'http://www.cbr.ru/scripts/XML_bic.asp';
 
     /**
      * @var string
      */
-    private $swap = 'http://www.cbr.ru/scripts/xml_swap.asp';
+    private string $swap = 'http://www.cbr.ru/scripts/xml_swap.asp';
 
     /**
      * @var string
      */
-    private $coinsBase = 'http://www.cbr.ru/scripts/XMLCoinsBase.asp';
+    private string $coinsBase = 'http://www.cbr.ru/scripts/XMLCoinsBase.asp';
 
     /**
      * @var int
      */
-    private $bicCountCode = 9;
+    private int $bicCountCode = 9;
 
     /**
      * Получение котировок на заданный день
      *
-     * @param null $date_req
-     * @return mixed
+     * @param string|null $dateReq
+     * @return array
+     * @throws Exception
      */
-    public function getDaily($date_req = null)
+    public function getDaily(?string $dateReq = null): array
     {
-        if (empty($date_req)) {
+        if (empty($dateReq)) {
             return $this->getRequest($this->daily);
         }
 
         return $this->getRequest($this->daily, [
-            'date_req' => $date_req,
+            'date_req' => $dateReq,
         ]);
+    }
+
+    /**
+     * @param $url
+     * @param null $params
+     * @return array
+     * @throws Exception
+     */
+    private function getRequest($url, $params = null): array
+    {
+        $client = new Client();
+
+        if ($params) {
+            $query = http_build_query($params);
+            $url .= '?' . $query;
+        }
+
+        try {
+            $response = $client->get($url);
+        } catch (Exception $exception) {
+            throw new Exception($exception);
+        }
+
+        $xml = simplexml_load_string($response->getBody());
+
+        if ($xml === false) {
+            throw new Exception('Failed to parse XML response');
+        }
+
+        return json_decode(json_encode((array)$xml), true);
     }
 
     /**
      * Список включающий ISO коды валют
      *
      * @param int $d
-     * @return mixed
+     * @return array
+     * @throws Exception
      */
-    public function getFullValuteCode($d = 0)
+    public function getFullValuteCode(int $d = 0): array
     {
-        return $this->getRequest($this->full_valute_code, [
+        return $this->getRequest($this->fullValuteCode, [
             'd' => $d,
         ]);
     }
@@ -106,141 +138,103 @@ class Rates
     /**
      * Справочник по кодам валют
      *
-     * @return mixed
+     * @return array
+     * @throws Exception
      */
-    public function getValuteCode()
+    public function getValuteCode(): array
     {
-        return $this->getRequest($this->valute_code);
+        return $this->getRequest($this->valuteCode);
     }
 
     /**
      * Получение динамики котировок валюты по заданному VAL_NM_RQ
      *
-     * @param $date_req1
-     * @param $date_req2
-     * @param $val_nm_rq
-     * @return mixed
+     * @param string $dateReq1
+     * @param string $dateReq2
+     * @param string $valNmRq
+     * @return array
      * @throws Exception
      */
-    public function getDynamic($date_req1, $date_req2, $val_nm_rq)
+    public function getDynamic(string $dateReq1, string $dateReq2, string $valNmRq): array
     {
-        if (empty($date_req1)) {
-            throw new Exception('Params date_reg1 is not defined');
-        }
-
-        if (empty($date_req2)) {
-            throw new Exception('Params date_reg2 is not defined');
-        }
-
         return $this->getRequest($this->dynamic, [
-            'date_req1' => $date_req1,
-            'date_req2' => $date_req2,
-            'VAL_NM_RQ' => $val_nm_rq,
+            'date_req1' => $dateReq1,
+            'date_req2' => $dateReq2,
+            'VAL_NM_RQ' => $valNmRq,
         ]);
     }
 
     /**
      * Получение динамики сведений об остатках средств на корреспондентских счетах кредитных организаций
      *
-     * @param $date_req1
-     * @param $date_req2
-     * @return mixed
+     * @param string $dateReq1
+     * @param string $dateReq2
+     * @return array
      * @throws Exception
      */
-    public function getOstat($date_req1, $date_req2)
+    public function getOstat(string $dateReq1, string $dateReq2): array
     {
-        if (empty($date_req1)) {
-            throw new Exception('Params date_reg1 is not defined');
-        }
-
-        if (empty($date_req2)) {
-            throw new Exception('Params date_reg2 is not defined');
-        }
-
         return $this->getRequest($this->ostat, [
-            'date_req1' => $date_req1,
-            'date_req2' => $date_req2,
+            'date_req1' => $dateReq1,
+            'date_req2' => $dateReq2,
         ]);
     }
 
     /**
      * Получение динамики котировок драгоценных металлов
      *
-     * @param $date_req1
-     * @param $date_req2
-     * @return mixed
+     * @param string $dateReq1
+     * @param string $dateReq2
+     * @return array
      * @throws Exception
      */
-    public function getMetall($date_req1, $date_req2)
+    public function getMetall(string $dateReq1, string $dateReq2): array
     {
-        if (empty($date_req1)) {
-            throw new Exception('Params date_reg1 is not defined');
-        }
-
-        if (empty($date_req2)) {
-            throw new Exception('Params date_reg2 is not defined');
-        }
-
         return $this->getRequest($this->metall, [
-            'date_req1' => $date_req1,
-            'date_req2' => $date_req2,
+            'date_req1' => $dateReq1,
+            'date_req2' => $dateReq2,
         ]);
     }
 
     /**
      * Получение динамики ставок межбанковского рынка
      *
-     * @param $date_req1
-     * @param $date_req2
-     * @return mixed
+     * @param string $dateReq1
+     * @param string $dateReq2
+     * @return array
      * @throws Exception
      */
-    public function getMkr($date_req1, $date_req2)
+    public function getMkr(string $dateReq1, string $dateReq2): array
     {
-        if (empty($date_req1)) {
-            throw new Exception('Params date_reg1 is not defined');
-        }
-
-        if (empty($date_req2)) {
-            throw new Exception('Params date_reg2 is not defined');
-        }
-
         return $this->getRequest($this->mkr, [
-            'date_req1' => $date_req1,
-            'date_req2' => $date_req2,
+            'date_req1' => $dateReq1,
+            'date_req2' => $dateReq2,
         ]);
     }
 
     /**
      * Получение динамики ставок привлечения средств по депозитным операциям Банка России на денежном рынке
      *
-     * @param $date_req1
-     * @param $date_req2
-     * @return mixed
+     * @param string $dateReq1
+     * @param string $dateReq2
+     * @return array
      * @throws Exception
      */
-    public function getDepo($date_req1, $date_req2)
+    public function getDepo(string $dateReq1, string $dateReq2): array
     {
-        if (empty($date_req1)) {
-            throw new Exception('Params date_reg1 is not defined');
-        }
-
-        if (empty($date_req2)) {
-            throw new Exception('Params date_reg2 is not defined');
-        }
-
         return $this->getRequest($this->depo, [
-            'date_req1' => $date_req1,
-            'date_req2' => $date_req2,
+            'date_req1' => $dateReq1,
+            'date_req2' => $dateReq2,
         ]);
     }
 
     /**
      * Получение новостей сервера
      *
-     * @return mixed
+     * @return array
+     * @throws Exception
      */
-    public function getServerNews()
+    public function getServerNews(): array
     {
         return $this->getRequest($this->news);
     }
@@ -248,17 +242,15 @@ class Rates
     /**
      * Получение соответствия названий кредитных организаций кодам BIC (9 знаков)
      *
-     * @param null $name
-     * @param null $bic
-     * @return mixed
+     * @param string|null $name
+     * @param string|null $bic
+     * @return array
      * @throws Exception
      */
-    public function getBic($name = null, $bic = null)
+    public function getBic(?string $name = null, ?string $bic = null): array
     {
-        if (!empty($bic)) {
-            if (strlen($bic) > $this->bicCountCode) {
-                throw new Exception('Params bic cannot be more than 9 characters');
-            }
+        if (!empty($bic) && strlen($bic) > $this->bicCountCode) {
+            throw new Exception("Params bic cannot be more than {$this->bicCountCode} characters");
         }
 
         if (empty($bic) && empty($name)) {
@@ -271,73 +263,36 @@ class Rates
         ]);
     }
 
-
     /**
      * Получение динамики ставок «валютный своп» — " Валютный своп buy/sell overnight"
      *
-     * @param $date_req1
-     * @param $date_req2
-     * @return mixed
+     * @param string $dateReq1
+     * @param string $dateReq2
+     * @return array
      * @throws Exception
      */
-    public function getSwap($date_req1, $date_req2)
+    public function getSwap(string $dateReq1, string $dateReq2): array
     {
-        if (empty($date_req1)) {
-            throw new Exception('Params date_reg1 is not defined');
-        }
-
-        if (empty($date_req2)) {
-            throw new Exception('Params date_reg2 is not defined');
-        }
-
         return $this->getRequest($this->swap, [
-            'date_req1' => $date_req1,
-            'date_req2' => $date_req2,
+            'date_req1' => $dateReq1,
+            'date_req2' => $dateReq2,
         ]);
     }
 
     /**
      * Получения динамики отпускных цен Банка России на инвестиционные монеты
      *
-     * @param $date_req1
-     * @param $date_req2
-     * @return mixed
+     * @param string $dateReq1
+     * @param string $dateReq2
+     * @return array
      * @throws Exception
      */
-    public function getCoinsBase($date_req1, $date_req2)
+    public function getCoinsBase(string $dateReq1, string $dateReq2): array
     {
-        if (empty($date_req1)) {
-            throw new Exception('Params date_reg1 is not defined');
-        }
-
-        if (empty($date_req2)) {
-            throw new Exception('Params date_reg2 is not defined');
-        }
-
         return $this->getRequest($this->coinsBase, [
-            'date_req1' => $date_req1,
-            'date_req2' => $date_req2,
+            'date_req1' => $dateReq1,
+            'date_req2' => $dateReq2,
         ]);
-    }
-
-    /**
-     * @param $url
-     * @param null $params
-     * @return mixed
-     */
-    private function getRequest($url, $params = null)
-    {
-        $client = new Client();
-
-        if ($params) {
-            $query = http_build_query($params);
-            $url = $url . '?' . $query;
-        }
-
-        $response = $client->get($url)->getBody();
-
-        $xml = simplexml_load_string($response);
-        return json_decode(json_encode((array)$xml), TRUE);
     }
 
 }

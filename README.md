@@ -23,10 +23,10 @@ $ composer require unetway/rates
 ````
 use Unetway\Rates\Rates;
 
-$date_req = '03/04/2021';
+$dateReq = '03/04/2021';
 
 $rates = new Rates();
-$res = $rates->getDaily($date_req);
+$res = $rates->getDaily($dateReq);
 
 echo $res;
 ````
@@ -70,12 +70,12 @@ echo $res;
 ````
 use Unetway\Rates\Rates;
 
-$date_req1 = '02/03/2001';
-$date_req2 = '14/03/2001';
-$val_nm_rq = 'R01235';
+$dateReq1 = '02/03/2001';
+$dateReq2 = '14/03/2001';
+$valNmRq = 'R01235';
 
 $rates = new Rates();
-$res = $rates->getDynamic($date_req1, $date_req2, $val_nm_rq);
+$res = $rates->getDynamic($dateReq1, $dateReq2, $valNmRq);
 
 echo $res;
 ````
@@ -89,11 +89,11 @@ echo $res;
 ````
 use Unetway\Rates\Rates;
 
-$date_req1 = '02/03/2001';
-$date_req2 = '14/03/2001';
+$dateReq1 = '02/03/2001';
+$dateReq2 = '14/03/2001';
 
 $rates = new Rates();
-$res = $rates->getOstat($date_req1, $date_req2);
+$res = $rates->getOstat($dateReq1, $dateReq2);
 
 echo $res;
 ````
@@ -107,11 +107,11 @@ echo $res;
 ````
 use Unetway\Rates\Rates;
 
-$date_req1 = '02/03/2001';
-$date_req2 = '14/03/2001';
+$dateReq1 = '02/03/2001';
+$dateReq2 = '14/03/2001';
 
 $rates = new Rates();
-$res = $rates->getMetall($date_req1, $date_req2);
+$res = $rates->getMetall($dateReq1, $dateReq2);
 
 echo $res;
 ````
@@ -125,11 +125,11 @@ echo $res;
 ````
 use Unetway\Rates\Rates;
 
-$date_req1 = '02/03/2001';
-$date_req2 = '14/03/2001';
+$dateReq1 = '02/03/2001';
+$dateReq2 = '14/03/2001';
 
 $rates = new Rates();
-$res = $rates->getMkr($date_req1, $date_req2);
+$res = $rates->getMkr($dateReq1, $dateReq2);
 
 echo $res;
 ````
@@ -143,11 +143,11 @@ echo $res;
 ````
 use Unetway\Rates\Rates;
 
-$date_req1 = '02/03/2001';
-$date_req2 = '14/03/2001';
+$dateReq1 = '02/03/2001';
+$dateReq2 = '14/03/2001';
 
 $rates = new Rates();
-$res = $rates->getDepo($date_req1, $date_req2);
+$res = $rates->getDepo($dateReq1, $dateReq2);
 
 echo $res;
 ````
@@ -196,11 +196,11 @@ echo $res;
 ````
 use Unetway\Rates\Rates;
 
-$date_req1 = '02/03/2001';
-$date_req2 = '14/03/2001';
+$dateReq1 = '02/03/2001';
+$dateReq2 = '14/03/2001';
 
 $rates = new Rates();
-$res = $rates->getSwap($date_req1, $date_req2);
+$res = $rates->getSwap($dateReq1, $dateReq2);
 
 echo $res;
 ````
@@ -214,11 +214,11 @@ echo $res;
 ````
 use Unetway\Rates\Rates;
 
-$date_req1 = '02/03/2001';
-$date_req2 = '14/03/2001';
+$dateReq1 = '02/03/2001';
+$dateReq2 = '14/03/2001';
 
 $rates = new Rates();
-$res = $rates->getCoinsBase($date_req1, $date_req2);
+$res = $rates->getCoinsBase($dateReq1, $dateReq2);
 
 echo $res;
 ````
